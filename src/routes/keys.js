@@ -1,14 +1,16 @@
 const express = require("express");
-const { registerApiKey } = require("../middleware/apiKey");
+const { createKey } = require("../services/keyService");
 
 const router = express.Router();
 
 router.post("/keys", (req, res) => {
-  const key = registerApiKey();
+  const name = req.body?.name || "default";
+  const apiKey = createKey(name);
 
   res.status(201).json({
     success: true,
-    api_key: key
+    name,
+    api_key: apiKey
   });
 });
 
